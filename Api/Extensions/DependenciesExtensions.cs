@@ -13,6 +13,7 @@ namespace Api.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+            services.AddScoped<ICpfValidator, CpfValidator>();
             
             Assembly
                 .GetAssembly(typeof(Application.Handlers.OrganRequests.CreateOrganRequestHandler))
