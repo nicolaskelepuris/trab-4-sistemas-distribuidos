@@ -13,7 +13,7 @@ namespace Persistence.Contexts
 
         public virtual DbSet<AppUser> AppUsers { get; set; } = null!;
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
-        public virtual DbSet<Request> Requests { get; set; } = null!;
+        public virtual DbSet<OrganRequest> OrganRequests { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

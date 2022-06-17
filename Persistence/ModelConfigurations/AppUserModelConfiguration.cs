@@ -12,6 +12,6 @@ namespace Persistence.ModelConfigurations;
             builder.Property(x => x.Cpf).IsRequired().HasMaxLength(11).IsFixedLength();
             builder.HasIndex(x => x.Cpf).IsUnique();
 
-            builder.HasMany(x => x.Requests).WithOne(x => x.Requester);
+            builder.HasMany(x => x.OrganRequests).WithOne(x => x.Requester);
         }
     }

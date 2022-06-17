@@ -17,5 +17,7 @@ namespace Persistence.ModelConfigurations;
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
+
+            builder.Property(x => x.Organ).IsRequired();
         }
     }

@@ -8,6 +8,6 @@ namespace Domain.Entities
         public string Name { get; set; } = null!;
         public string Cpf { get; set; } = null!;
         public ICollection<Transaction> Transactions { get; set; } = null!;
-        public ICollection<Request> Requests { get; set; } = null!;
+        public ICollection<OrganRequest> OrganRequests { get; set; } = null!;
     }
 }
