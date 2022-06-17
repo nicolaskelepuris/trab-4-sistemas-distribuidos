@@ -12,9 +12,7 @@ namespace Api.Controllers
     [ApiController]
     public abstract class BaseController : ControllerBase
     {
-        protected async Task<IActionResult> Handle<THandler, TRequest, TResponse>(THandler handler, TRequest request)
-            where THandler : IHandler<TRequest, TResponse>
-            where TRequest : IRequest<TResponse>
+        protected async Task<IActionResult> Handle<TRequest, TResponse>(IHandler<TRequest, TResponse> handler, TRequest request)
         {
             TResponse? data;
             try
