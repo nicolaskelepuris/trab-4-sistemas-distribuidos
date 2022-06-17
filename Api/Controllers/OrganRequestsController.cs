@@ -18,7 +18,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<CreateOrganRequestResponse>), 200)]
-        public async Task<IActionResult> GetChatRoom([FromBody] CreateOrganRequestRequest request)
+        public async Task<IActionResult> CreateOrganRequest([FromBody] CreateOrganRequestRequest request)
         {
             return await HandleAsync(_createOrganRequestHandler, request);
         }
