@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence.Contexts;
 
@@ -23,10 +22,7 @@ var app = builder.Build();
 await MigrateAsync(app);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UserSwaggerDocumentation();
-}
+app.UserSwaggerDocumentation();
 
 app.UseHttpsRedirection();
 
