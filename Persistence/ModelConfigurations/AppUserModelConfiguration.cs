@@ -8,7 +8,6 @@ namespace Persistence.ModelConfigurations;
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
-            builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.Cpf).IsRequired().HasMaxLength(11).IsFixedLength();
             builder.HasIndex(x => x.Cpf).IsUnique();
 
