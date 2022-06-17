@@ -12,14 +12,14 @@ namespace Api.Controllers
     [ApiController]
     public abstract class BaseController : ControllerBase
     {
-        protected async Task<IActionResult> Handle<TRequest, TResponse>(IHandler<TRequest, TResponse> handler, TRequest request)
+        protected async Task<IActionResult> HandleAsync<TRequest, TResponse>(IHandler<TRequest, TResponse> handler, TRequest request)
         {
             TResponse? data;
             try
             {
                 ArgumentNullException.ThrowIfNull(handler);
                 ArgumentNullException.ThrowIfNull(request);
-                data = await handler.Handle(request);
+                data = await handler.HandleAsync(request);
             }
             catch (ApiException ex)
             {
