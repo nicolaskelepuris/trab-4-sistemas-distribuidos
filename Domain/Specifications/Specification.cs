@@ -32,26 +32,26 @@ namespace Domain.Specifications
 
         public bool IsPaginationEnabled { get; private set; }
 
-        protected void AddInclude(string include)
+        public void AddInclude(string include)
         {
             IncludesByString.Add(include);
         }
 
-        protected void AddInclude(Expression<Func<T, object>> includeExpression)
+        public void AddInclude(Expression<Func<T, object>> includeExpression)
         {
             Includes.Add(includeExpression);
         }
 
-        protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+        public void AddOrderBy(Expression<Func<T, object>> orderByExpression)
         {
             OrderBy = orderByExpression;
         }
-        protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
+        public void AddOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
         {
             OrderByDescending = orderByDescendingExpression;
         }
 
-        protected void ApplyPaging(int skip, int take)
+        public void ApplyPaging(int skip, int take)
         {
             Skip = skip;
             Take = take;
