@@ -12,14 +12,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     private readonly DbContext _context;
     private readonly ISpecificationEvaluator<T> _specificationEvaluator;
-    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public GenericRepository(DbContext context, ISpecificationEvaluator<T> specificationEvaluator, IDateTimeProvider dateTimeProvider)
+    public GenericRepository(DbContext context, ISpecificationEvaluator<T> specificationEvaluator)
     {
         ArgumentNullException.ThrowIfNull(context);
 
         _context = context;
-        _dateTimeProvider = dateTimeProvider;
         _specificationEvaluator = specificationEvaluator;
     }
 
@@ -28,7 +26,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         ArgumentNullException.ThrowIfNull(entity);
 
         _context.Set<T>().Add(entity);
-        entity.SetCreatedAt(_dateTimeProvider);
     }
 
     public void Update(T entity)
@@ -37,7 +34,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
         _context.Set<T>().Attach(entity);
         _context.Entry(entity).State = EntityState.Modified;
-        entity.SetUpdatedAt(_dateTimeProvider);
     }
 
     public void Delete(T entity)

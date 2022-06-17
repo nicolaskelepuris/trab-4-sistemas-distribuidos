@@ -66,7 +66,7 @@ public class GenericRepositoryTests
     {
         var dbContext = new SomeDbContext(dbContextOptions);
 
-        var genericRepository = () => new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = () => new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         genericRepository.Should().NotThrow();
     }
@@ -75,7 +75,7 @@ public class GenericRepositoryTests
     public void Constructor_NullContext_ShouldThrow()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = () => new GenericRepository<SomeEntity>(context: null!, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = () => new GenericRepository<SomeEntity>(context: null!, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         genericRepository.Should().ThrowExactly<ArgumentNullException>();
     }
@@ -84,7 +84,7 @@ public class GenericRepositoryTests
     public void Add_ValidEntity_ShouldEnterAddedState()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
         var entity = new SomeEntity();
 
         genericRepository.Add(entity);
@@ -94,25 +94,10 @@ public class GenericRepositoryTests
     }
 
     [Fact]
-    public void Add_ValidEntity_ShouldSetCreatedAt()
-    {
-        var dateTimeProviderMock = new Mock<IDateTimeProvider>();
-        var utcNow = DateTime.UtcNow;
-        dateTimeProviderMock.Setup(x => x.UtcNow).Returns(utcNow);
-        var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, dateTimeProviderMock.Object);
-        var entity = new SomeEntity();
-
-        genericRepository.Add(entity);
-
-        entity.CreatedAt.Should().Be(utcNow);
-    }
-
-    [Fact]
     public void Add_NullEntity_ShouldThrow()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var add = () => genericRepository.Add(entity: null!);
 
@@ -123,7 +108,7 @@ public class GenericRepositoryTests
     public void Update_ValidEntity_ShouldEnterModifiedState()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
         var entity = new SomeEntity();
 
         genericRepository.Update(entity);
@@ -133,25 +118,10 @@ public class GenericRepositoryTests
     }
 
     [Fact]
-    public void Update_ValidEntity_ShouldSetUpdatedAt()
-    {
-        var dateTimeProviderMock = new Mock<IDateTimeProvider>();
-        var utcNow = DateTime.UtcNow;
-        dateTimeProviderMock.Setup(x => x.UtcNow).Returns(utcNow);
-        var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, dateTimeProviderMock.Object);
-        var entity = new SomeEntity();
-
-        genericRepository.Update(entity);
-
-        entity.UpdatedAt.Should().Be(utcNow);
-    }
-
-    [Fact]
     public void Update_NullEntity_ShouldThrow()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var update = () => genericRepository.Update(entity: null!);
 
@@ -162,7 +132,7 @@ public class GenericRepositoryTests
     public async Task Delete_ValidEntity_ShouldEnterDeletedState()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
         var entity = new SomeEntity();
         await dbContext.Entities.AddAsync(entity);
         await dbContext.SaveChangesAsync();
@@ -177,7 +147,7 @@ public class GenericRepositoryTests
     public void Delete_NullEntity_ShouldThrow()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var delete = () => genericRepository.Delete(entity: null!);
 
@@ -188,7 +158,7 @@ public class GenericRepositoryTests
     public async Task GetEntityByIdAsync_ValidId_ShouldGetEntity()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
         var entity = new SomeEntity();
         await dbContext.Entities.AddAsync(entity);
         await dbContext.SaveChangesAsync();
@@ -204,7 +174,7 @@ public class GenericRepositoryTests
     public async Task GetEntityByIdAsync_NotFoundEntity_ShouldReturnNull()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var entityFound = await genericRepository.GetEntityByIdAsync(Guid.NewGuid());
 
@@ -215,7 +185,7 @@ public class GenericRepositoryTests
     public async Task ListAllAsync_ContainItems_ShouldList()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
         var entities = new List<SomeEntity>()
         {
             new SomeEntity(),
@@ -234,7 +204,7 @@ public class GenericRepositoryTests
     public async Task ListAllAsync_Empty_ShouldReturnEmptyList()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var entitiesFound = await genericRepository.ListAllAsync();
 
@@ -245,7 +215,7 @@ public class GenericRepositoryTests
     public async Task GetEntityAsyncWithSpec_NotFound_ShouldReturnNull()
     {
         var dbContext = new SomeDbContext(dbContextOptions);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var entity = await genericRepository.GetEntityAsyncWithSpec(new Mock<ISpecification<SomeEntity>>().Object);
 
@@ -258,7 +228,7 @@ public class GenericRepositoryTests
         var dbContext = new SomeDbContext(dbContextOptions);
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         await genericRepository.GetEntityAsyncWithSpec(specificationMock.Object);
 
@@ -275,7 +245,7 @@ public class GenericRepositoryTests
         };
         dbContext.Entities.AddRange(entities);
         await dbContext.SaveChangesAsync();
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, CreateSpecificationEvaluatorMock(dbContext).Object);
 
         var entity = await genericRepository.GetEntityAsyncWithSpec(specificationMock.Object);
 
@@ -288,7 +258,7 @@ public class GenericRepositoryTests
         var dbContext = new SomeDbContext(dbContextOptions);
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         await genericRepository.CountAsync(specificationMock.Object);
 
@@ -301,7 +271,7 @@ public class GenericRepositoryTests
         var dbContext = new SomeDbContext(dbContextOptions);
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         var count = await genericRepository.CountAsync(specificationMock.Object);
 
@@ -322,7 +292,7 @@ public class GenericRepositoryTests
         await dbContext.SaveChangesAsync();
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         var count = await genericRepository.CountAsync(specificationMock.Object);
 
@@ -335,7 +305,7 @@ public class GenericRepositoryTests
         var dbContext = new SomeDbContext(dbContextOptions);
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         await genericRepository.ListAsyncWithSpec(specificationMock.Object);
 
@@ -348,7 +318,7 @@ public class GenericRepositoryTests
         var dbContext = new SomeDbContext(dbContextOptions);
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         var entities = await genericRepository.ListAsyncWithSpec(specificationMock.Object);
 
@@ -369,7 +339,7 @@ public class GenericRepositoryTests
         await dbContext.SaveChangesAsync();
         var specificationMock = new Mock<ISpecification<SomeEntity>>();
         var specificationEvaluatorMock = CreateSpecificationEvaluatorMock(dbContext);
-        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object, new Mock<IDateTimeProvider>().Object);
+        var genericRepository = new GenericRepository<SomeEntity>(dbContext, specificationEvaluatorMock.Object);
 
         var entities = await genericRepository.ListAsyncWithSpec(specificationMock.Object);
 

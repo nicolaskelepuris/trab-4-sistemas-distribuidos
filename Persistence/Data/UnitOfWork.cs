@@ -36,7 +36,7 @@ public class UnitOfWork : IUnitOfWork
         {
             var repositoryType = typeof(GenericRepository<>);
 
-            var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _context, new SpecificationEvaluator<TEntity>(), new DateTimeProvider());
+            var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(TEntity)), _context, new SpecificationEvaluator<TEntity>());
             if (repositoryInstance == null) throw new Exception($"Could not create generic repository for {typeName}");
 
             _repositories.Add(typeName, repositoryInstance);

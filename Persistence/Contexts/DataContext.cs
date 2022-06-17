@@ -1,7 +1,11 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 using Persistence.ModelConfigurations;
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Persistence.Contexts
 {
@@ -23,6 +27,27 @@ namespace Persistence.Contexts
 
             builder.ApplyConfiguration(new TransactionModelConfiguration());
             builder.ApplyConfiguration(new AppUserModelConfiguration());
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var entries = ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is BaseEntity && (
+                        e.State == EntityState.Added
+                        || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((BaseEntity)entityEntry.Entity).SetUpdatedAt();
+
+                if (entityEntry.State == EntityState.Added)
+                {
+                    ((BaseEntity)entityEntry.Entity).SetCreatedAt();
+                }
+            }
+
+            return await base.SaveChangesAsync();
         }
     }
 }

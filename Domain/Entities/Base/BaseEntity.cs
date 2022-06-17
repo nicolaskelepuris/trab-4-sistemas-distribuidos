@@ -1,5 +1,4 @@
 using System;
-using Domain.Interfaces;
 
 namespace Domain.Entities.Base;
 
@@ -9,13 +8,13 @@ public abstract class BaseEntity
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
-    public void SetCreatedAt(IDateTimeProvider dateTimeProvider)
+    public void SetCreatedAt()
     {
-        CreatedAt = dateTimeProvider.UtcNow;
+        CreatedAt = DateTime.UtcNow;
     }
 
-    public void SetUpdatedAt(IDateTimeProvider dateTimeProvider)
+    public void SetUpdatedAt()
     {
-        UpdatedAt = dateTimeProvider.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 }
