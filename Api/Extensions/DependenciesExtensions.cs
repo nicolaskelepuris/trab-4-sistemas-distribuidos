@@ -14,6 +14,7 @@ namespace Api.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<ICpfValidator, CpfValidator>();
+            services.AddScoped<IBlockchain, BlockchainSimulator>();
             
             Assembly
                 .GetAssembly(typeof(Application.Handlers.OrganRequests.CreateOrganRequestHandler))

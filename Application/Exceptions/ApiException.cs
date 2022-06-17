@@ -11,5 +11,10 @@ namespace Application.Exceptions
         }
 
         public HttpStatusCode StatusCode { get; private set; }
+
+        public static ApiException BadRequest(string invalidField)
+        {
+            return new ApiException($"Invalid {invalidField}", HttpStatusCode.BadRequest);
+        }
     }
 }
