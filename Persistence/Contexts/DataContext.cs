@@ -11,7 +11,9 @@ namespace Persistence.Contexts
         {
         }
 
+        public virtual DbSet<AppUser> AppUsers { get; set; } = null!;
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
+        public virtual DbSet<Request> Requests { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -20,6 +22,7 @@ namespace Persistence.Contexts
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new TransactionModelConfiguration());
+            builder.ApplyConfiguration(new AppUserModelConfiguration());
         }
     }
 }
