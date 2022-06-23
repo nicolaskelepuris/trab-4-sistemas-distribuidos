@@ -12,7 +12,7 @@ namespace Domain.Interfaces
     {
         public bool IsValid(string? cpf)
         {
-            return !string.IsNullOrWhiteSpace(cpf) && cpf.All(c => Char.IsDigit(c));
+            return !string.IsNullOrWhiteSpace(cpf) && cpf.All(c => Char.IsDigit(c)) && cpf.Length == 11;
         }
     }
 }
