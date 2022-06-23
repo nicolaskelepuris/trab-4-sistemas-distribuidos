@@ -16,6 +16,11 @@ builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializ
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDependencies();
+var corsPolicy = "CorsPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: corsPolicy, policy  => { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); } );
+});
 
 var app = builder.Build();
 
@@ -25,6 +30,8 @@ await MigrateAsync(app);
 app.UserSwaggerDocumentation();
 
 app.UseHttpsRedirection();
+
+app.UseCors(corsPolicy);
 
 app.UseAuthorization();
 
